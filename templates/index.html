@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>FormulaQ Task</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .card {
+            background-color: #111;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #00aaff;
+        }
+        pre {
+            font-family: "Courier New", monospace;
+            line-height: 1.2;
+        }
+        input {
+            padding: 6px;
+            margin-right: 8px;
+        }
+        button {
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Phase 1: Authentication</h1>
+
+    {% if not user %}
+        <p>Flask application with Google OAuth Authentication.</p>
+        <p>Click the button below to sign in:</p>
+        <a href="{{ url_for('login') }}">
+            <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png"
+                 alt="Sign in with Google">
+        </a>
+    {% else %}
+        <div class="card">
+            {% if user.picture %}
+                <img src="{{ user.picture }}" alt="Profile" width="60"
+                     style="border-radius: 50%; vertical-align: middle;">
+            {% endif %}
+            <div style="display:inline-block; margin-left:10px; vertical-align: middle;">
+                <p>Hello {{ user.name }} [<a href="{{ url_for('logout') }}">Sign out</a>]</p>
+                <p>You are signed in with the email {{ user.email }}</p>
+                <p>Current Indian time: {{ india_time }}</p>
+            </div>
+        </div>
+
+        <h2>Phase 2: Printing Design</h2>
+        <p>Enter the number of lines for the design (max 100):</p>
+
+        <form method="post">
+            <input type="text" name="lines" required>
+            <button type="submit">Display</button>
+        </form>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        {% if pattern_lines %}
+            <h3>Output:</h3>
+            <pre>
+{% for line in pattern_lines %}
+{{ line }}
+{% endfor %}
+            </pre>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
